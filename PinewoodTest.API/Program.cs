@@ -1,3 +1,5 @@
+using PinewoodTest.API.Services;
+
 namespace PinewoodTest.API
 {
     public class Program
@@ -17,6 +19,10 @@ namespace PinewoodTest.API
         private static void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddMediatR(configuration => configuration.RegisterServicesFromAssemblyContaining<Program>());
+
+            services.AddDbContext<PinewoodDbContext>();
+            services.AddTransient<ICustomerRepository, CustomerRepository>();
         }
 
         private static void ConfigureOptions(IServiceCollection services, IConfiguration configuration)
