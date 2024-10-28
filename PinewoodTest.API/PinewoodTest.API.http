@@ -1,0 +1,6 @@
+@PinewoodTest.API_HostAddress = http://localhost:5245
+
+GET {{PinewoodTest.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
