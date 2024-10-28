@@ -1,8 +1,11 @@
-﻿namespace PinewoodTest.API
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PinewoodTest.API
 {
     public class Customer
     {
-        public Guid Id { get; }
+        [Key]
+        public Guid ID { get; private set; }
 
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
@@ -11,10 +14,5 @@
 
         public required string Address { get; set; }
         public required string City { get; set; }
-
-        public Customer(Guid id)
-        {
-            this.Id = id;
-        }
     }
 }
