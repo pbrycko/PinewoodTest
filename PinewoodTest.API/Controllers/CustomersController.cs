@@ -19,6 +19,15 @@ namespace PinewoodTest.API.Controllers
             this._mediator = mediator;
         }
 
+        [HttpGet]
+        [Produces(MediaTypeNames.Application.Json)]
+        public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken)
+        {
+            GetAllCustomersRequest request = new GetAllCustomersRequest();
+            IEnumerable<CustomerListItemDTO> allCustomers = await this._mediator.Send(request, cancellationToken).ConfigureAwait(false);
+            return Ok(allCustomers);
+        }
+
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]

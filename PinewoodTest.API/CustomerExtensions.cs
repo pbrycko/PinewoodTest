@@ -6,9 +6,8 @@ namespace PinewoodTest.API
     {
         public static CustomerListItemDTO ToListItemDTO(this Customer customer)
         {
-            return new CustomerListItemDTO()
+            return new CustomerListItemDTO(customer.ID)
             {
-                ID = customer.ID,
                 FirstName = customer.FirstName,
                 LastName = customer.LastName
             };

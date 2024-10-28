@@ -1,4 +1,6 @@
-﻿namespace PinewoodTest.API.Services
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace PinewoodTest.API.Services
 {
     public class CustomerRepository : ICustomerRepository
     {
@@ -11,9 +13,15 @@
             this._log = log;
         }
 
+        public async Task<IEnumerable<Customer>> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            this._log.LogTrace("Getting all customers from the DB");
+            return await this._databaseContext.Customers.ToListAsync(cancellationToken);
+        }
+
         public async Task<Customer> CreateAsync(Customer customer, CancellationToken cancellationToken = default)
         {
-            this._log.LogTrace("Inserting customer {EmailAddress} ({FirstName} {LastName})", customer.Email, customer.FirstName, customer.LastName);
+            this._log.LogTrace("Inserting customer {EmailAddress} ({FirstName} {LastName}) to the DB", customer.Email, customer.FirstName, customer.LastName);
             
             await this._databaseContext.Customers.AddAsync(customer, cancellationToken);
             await this._databaseContext.SaveChangesAsync(cancellationToken);
