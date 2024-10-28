@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PinewoodTest.API.Services;
 
@@ -10,9 +11,11 @@ using PinewoodTest.API.Services;
 namespace PinewoodTest.API.Migrations
 {
     [DbContext(typeof(PinewoodDbContext))]
-    partial class PinewoodDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241028192920_MakeEmailUnique")]
+    partial class MakeEmailUnique
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");

@@ -18,5 +18,12 @@ namespace PinewoodTest.API.Services
         {
             optionsBuilder.UseSqlite($"Data Source={this._options.Value.SqliteFileName}");
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Customer>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
+        }
     }
 }
