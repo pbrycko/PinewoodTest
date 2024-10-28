@@ -4,22 +4,23 @@ namespace PinewoodTest.API
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+            ConfigureServices(builder.Services);
 
-            // Add services to the container.
-
-            builder.Services.AddControllers();
-
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-
-            app.UseAuthorization();
-
-
-            app.MapControllers();
+            WebApplication app = builder.Build();
+            ConfigureRequestPipeline(app);
 
             app.Run();
+        }
+
+        private static void ConfigureServices(IServiceCollection services)
+        {
+            services.AddControllers();
+        }
+
+        private static void ConfigureRequestPipeline(WebApplication app)
+        {
+            app.MapControllers();
         }
     }
 }
