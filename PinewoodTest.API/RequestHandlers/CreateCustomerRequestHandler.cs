@@ -1,9 +1,10 @@
 ﻿using MediatR;
 using PinewoodTest.Requests;
+using PinewoodTest.Responses;
 
 namespace PinewoodTest.API.RequestHandlers
 {
-    public class CreateCustomerRequestHandler : IRequestHandler<CreateCustomerRequest, Guid>
+    public class CreateCustomerRequestHandler : IRequestHandler<CreateCustomerRequest, CustomerListItemDTO>
     {
         private readonly ICustomerRepository _repository;
         private readonly ILogger _log;
@@ -14,7 +15,7 @@ namespace PinewoodTest.API.RequestHandlers
             this._log = log;
         }
 
-        async Task<Guid> IRequestHandler<CreateCustomerRequest, Guid>.Handle(CreateCustomerRequest request, CancellationToken cancellationToken)
+        public async Task<CustomerListItemDTO> Handle(CreateCustomerRequest request, CancellationToken cancellationToken)
         {
             this._log.LogDebug("Creating customer {EmailAddress} ({FirstName} {LastName})", request.Email, request.FirstName, request.LastName);
 
@@ -29,7 +30,7 @@ namespace PinewoodTest.API.RequestHandlers
 
             customer = await this._repository.CreateAsync(customer);
 
-            return customer.ID;
+            return customer.ToListItemDTO();
         }
     }
 }

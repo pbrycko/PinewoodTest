@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PinewoodTest.Requests;
+using PinewoodTest.Responses;
 using System.Net.Mime;
 
 namespace PinewoodTest.API.Controllers
@@ -20,10 +21,11 @@ namespace PinewoodTest.API.Controllers
 
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> CreateAsync(CreateCustomerRequest request, CancellationToken cancellationToken)
         {
-            Guid customerID = await this._mediator.Send(request, cancellationToken).ConfigureAwait(false);
-            return new CreatedResult($"api/customers/{customerID}", customerID);
+            CustomerListItemDTO customer = await this._mediator.Send(request, cancellationToken).ConfigureAwait(false);
+            return new CreatedResult($"api/customers/{customer.ID}", customer);
         }
     }
 }
