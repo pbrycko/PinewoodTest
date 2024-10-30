@@ -11,12 +11,12 @@ namespace PinewoodTest.API.Services
 
         public PinewoodDbContext(IOptions<DatabaseOptions> options)
         {
-            this._options = options;
+            _options = options;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite($"Data Source={this._options.Value.SqliteFileName}");
+            optionsBuilder.UseSqlite($"Data Source={_options.Value.SqliteFileName}");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

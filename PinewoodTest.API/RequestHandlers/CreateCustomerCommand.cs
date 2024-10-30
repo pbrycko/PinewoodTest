@@ -20,15 +20,15 @@ namespace PinewoodTest.API.RequestHandlers
 
             public CreateCustomerCommandHandler(ICustomerRepository repository, ILogger<CreateCustomerCommandHandler> log)
             {
-                this._repository = repository;
-                this._log = log;
+                _repository = repository;
+                _log = log;
             }
 
             public async Task<CustomerDTO> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
             {
-                this._log.LogDebug("Creating customer {EmailAddress} ({FirstName} {LastName})", request.Email, request.FirstName, request.LastName);
+                _log.LogDebug("Creating customer {EmailAddress} ({FirstName} {LastName})", request.Email, request.FirstName, request.LastName);
 
-                Customer? existingWithEmail = await this._repository.GetByEmailAsync(request.Email, cancellationToken);
+                Customer? existingWithEmail = await _repository.GetByEmailAsync(request.Email, cancellationToken);
                 if (existingWithEmail is not null)
                     throw new EmailConflictException(request.Email, existingWithEmail.ID);
 
@@ -41,7 +41,7 @@ namespace PinewoodTest.API.RequestHandlers
                     City = request.City,
                 };
 
-                customer = await this._repository.CreateAsync(customer, cancellationToken);
+                customer = await _repository.CreateAsync(customer, cancellationToken);
 
                 return customer.ToDTO()!;
             }

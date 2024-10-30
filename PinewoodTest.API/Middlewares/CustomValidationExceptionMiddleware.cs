@@ -8,14 +8,14 @@ namespace PinewoodTest.API.Middlewares
 
         public CustomValidationExceptionMiddleware(RequestDelegate next)
         {
-            this._next = next;
+            _next = next;
         }
 
         public async Task InvokeAsync(HttpContext context)
         {
             try
             {
-                await this._next(context);
+                await _next(context);
             }
             catch (EmailConflictException e)
             {

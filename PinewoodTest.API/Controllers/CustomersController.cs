@@ -17,7 +17,7 @@ namespace PinewoodTest.API.Controllers
 
         public CustomersController(IMediator mediator)
         {
-            this._mediator = mediator;
+            _mediator = mediator;
         }
 
         [HttpGet]
@@ -25,7 +25,7 @@ namespace PinewoodTest.API.Controllers
         public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken)
         {
             GetAllCustomersCommand command = new GetAllCustomersCommand();
-            IEnumerable<CustomerListItemDTO> allCustomers = await this._mediator.Send(command, cancellationToken);
+            IEnumerable<CustomerListItemDTO> allCustomers = await _mediator.Send(command, cancellationToken);
             return Ok(allCustomers);
         }
 
@@ -35,7 +35,7 @@ namespace PinewoodTest.API.Controllers
         public async Task<IActionResult> GetAsync(Guid id, CancellationToken cancellationToken)
         {
             GetCustomerCommand command = new GetCustomerCommand(id);
-            CustomerDTO? customer = await this._mediator.Send(command, cancellationToken);
+            CustomerDTO? customer = await _mediator.Send(command, cancellationToken);
             return customer == null 
                 ? NotFound() 
                 : Ok(customer);
@@ -57,7 +57,7 @@ namespace PinewoodTest.API.Controllers
 
             try
             {
-                CustomerDTO customer = await this._mediator.Send(command, cancellationToken);
+                CustomerDTO customer = await _mediator.Send(command, cancellationToken);
                 return CreatedAtAction(nameof(GetAsync), new { customer.ID }, customer);
             }
             catch (EmailConflictException ex)
@@ -83,7 +83,7 @@ namespace PinewoodTest.API.Controllers
 
             try
             {
-                CustomerDTO customer = await this._mediator.Send(command, cancellationToken);
+                CustomerDTO customer = await _mediator.Send(command, cancellationToken);
                 return Ok(customer);
             }
             catch (EmailConflictException ex)
@@ -97,7 +97,7 @@ namespace PinewoodTest.API.Controllers
         public async Task<IActionResult> CreateAsync(Guid id, CancellationToken cancellationToken)
         {
             DeleteCustomerCommand command = new DeleteCustomerCommand(id);
-            await this._mediator.Send(command, cancellationToken);
+            await _mediator.Send(command, cancellationToken);
             return NoContent();
         }
     }

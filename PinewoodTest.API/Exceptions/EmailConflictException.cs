@@ -8,8 +8,8 @@
         public EmailConflictException(string email, Guid existingCustomerID)
             : base($"Email address {email} is already registered for customer ID {existingCustomerID}.")
         {
-            this.Email = email;
-            this.ExistingCustomerID = existingCustomerID;
+            Email = email;
+            ExistingCustomerID = existingCustomerID;
         }
     }
 }

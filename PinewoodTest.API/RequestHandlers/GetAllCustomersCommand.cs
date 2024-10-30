@@ -14,12 +14,12 @@ namespace PinewoodTest.API.RequestHandlers
 
             public GetAllCustomersCommandHandler(ICustomerRepository repository)
             {
-                this._repository = repository;
+                _repository = repository;
             }
 
             public async Task<IEnumerable<CustomerListItemDTO>> Handle(GetAllCustomersCommand request, CancellationToken cancellationToken)
             {
-                IEnumerable<Customer> allCustomers = await this._repository.GetAllAsync(cancellationToken);
+                IEnumerable<Customer> allCustomers = await _repository.GetAllAsync(cancellationToken);
 
                 return allCustomers.Select(customer => customer.ToListItemDTO());
             }

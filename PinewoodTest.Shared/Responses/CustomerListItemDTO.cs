@@ -8,7 +8,7 @@
 
         public CustomerListItemDTO(Guid id)
         {
-            this.ID = id;
+            ID = id;
         }
     }
 }

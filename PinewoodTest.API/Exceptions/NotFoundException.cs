@@ -7,7 +7,7 @@
         public NotFoundException(Guid customerID)
             : base($"Customer {customerID} not found.")
         {
-            this.CustomerID = customerID; 
+            CustomerID = customerID; 
         }
     }
 }

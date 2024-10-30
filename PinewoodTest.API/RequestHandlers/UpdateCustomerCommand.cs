@@ -17,7 +17,7 @@ namespace PinewoodTest.API.RequestHandlers
 
         public UpdateCustomerCommand(Guid id)
         {
-            this.ID = id;
+            ID = id;
         }
 
         public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, CustomerDTO>
@@ -27,21 +27,21 @@ namespace PinewoodTest.API.RequestHandlers
 
             public UpdateCustomerCommandHandler(ICustomerRepository repository, ILogger<UpdateCustomerCommandHandler> log)
             {
-                this._repository = repository;
-                this._log = log;
+                _repository = repository;
+                _log = log;
             }
 
             public async Task<CustomerDTO> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
             {
-                this._log.LogDebug("Updating customer {ID}", request.ID);
+                _log.LogDebug("Updating customer {ID}", request.ID);
 
-                Customer? customer = await this._repository.GetByIDAsync(request.ID, cancellationToken);
+                Customer? customer = await _repository.GetByIDAsync(request.ID, cancellationToken);
                 if (customer is null)
                     throw new NotFoundException(request.ID);
 
                 if (request.Email != customer.Email)
                 {
-                    Customer? existingWithEmail = await this._repository.GetByEmailAsync(request.Email, cancellationToken);
+                    Customer? existingWithEmail = await _repository.GetByEmailAsync(request.Email, cancellationToken);
                     if (existingWithEmail is not null)
                         throw new EmailConflictException(request.Email, existingWithEmail.ID);
                 }
@@ -52,7 +52,7 @@ namespace PinewoodTest.API.RequestHandlers
                 customer.Address = request.Address;
                 customer.City = request.City;
 
-                customer = await this._repository.UpdateAsync(customer, cancellationToken);
+                customer = await _repository.UpdateAsync(customer, cancellationToken);
 
                 return customer.ToDTO()!;
             }

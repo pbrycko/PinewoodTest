@@ -14,7 +14,7 @@
 
         public CustomerDTO(Guid id)
         {
-            this.ID = id;
+            ID = id;
         }
     }
 }

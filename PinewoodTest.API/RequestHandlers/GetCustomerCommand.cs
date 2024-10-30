@@ -9,7 +9,7 @@ namespace PinewoodTest.API.RequestHandlers
 
         public GetCustomerCommand(Guid id)
         {
-            this.ID = id;
+            ID = id;
         }
 
         public class GetCustomerCommandHandler : IRequestHandler<GetCustomerCommand, CustomerDTO?>
@@ -18,12 +18,12 @@ namespace PinewoodTest.API.RequestHandlers
 
             public GetCustomerCommandHandler(ICustomerRepository repository)
             {
-                this._repository = repository;
+                _repository = repository;
             }
 
             public async Task<CustomerDTO?> Handle(GetCustomerCommand request, CancellationToken cancellationToken)
             {
-                Customer? customer = await this._repository.GetByIDAsync(request.ID, cancellationToken);
+                Customer? customer = await _repository.GetByIDAsync(request.ID, cancellationToken);
 
                 return customer?.ToDTO();
             }

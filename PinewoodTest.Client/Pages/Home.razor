@@ -4,7 +4,7 @@
 
 <PageTitle>Customers List</PageTitle>
 
-@if (this._customers == null)
+@if (_customers == null)
 {
     <p>Loading...</p>
 }
@@ -38,7 +38,7 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
-        this._customers = await Client.GetFromJsonAsync<IEnumerable<CustomerListItemDTO>>("customers");
+        _customers = await Client.GetFromJsonAsync<IEnumerable<CustomerListItemDTO>>("customers");
 
         await base.OnParametersSetAsync();
     }

@@ -8,7 +8,7 @@ namespace PinewoodTest.API.RequestHandlers
 
         public DeleteCustomerCommand(Guid id)
         {
-            this.ID = id;
+            ID = id;
         }
 
         public class DeleteCustomerCommandHandler : IRequestHandler<DeleteCustomerCommand>
@@ -17,16 +17,16 @@ namespace PinewoodTest.API.RequestHandlers
 
             public DeleteCustomerCommandHandler(ICustomerRepository repository)
             {
-                this._repository = repository;
+                _repository = repository;
             }
 
             public async Task Handle(DeleteCustomerCommand request, CancellationToken cancellationToken)
             {
-                Customer? customer = await this._repository.GetByIDAsync(request.ID, cancellationToken);
+                Customer? customer = await _repository.GetByIDAsync(request.ID, cancellationToken);
                 if (customer is null)
                     throw new NotFoundException(request.ID);
 
-                await this._repository.DeleteAsync(customer, cancellationToken);
+                await _repository.DeleteAsync(customer, cancellationToken);
             }
         }
     }
