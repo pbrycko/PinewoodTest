@@ -5,7 +5,7 @@ namespace PinewoodTest.Client
     public static class LinkBuilder
     {
         public static string GetCustomerLink(Guid id)
-            => $"/customer/{id}";
+            => $"/customers/{id}";
 
         public static string GetCustomerLink(CustomerDTO customer)
             => GetCustomerLink(customer.ID);

@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PinewoodTest.API", "PinewoodTest.API\PinewoodTest.API.csproj", "{85A0C75A-0D17-43D5-A060-F945C52BE933}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PinewoodTest.API", "PinewoodTest.API\PinewoodTest.API.csproj", "{85A0C75A-0D17-43D5-A060-F945C52BE933}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PinewoodTest.Shared", "PinewoodTest.Shared\PinewoodTest.Shared.csproj", "{8D1DEB4E-FC2B-4D7F-8D7D-8CD8A9D73081}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PinewoodTest.Shared", "PinewoodTest.Shared\PinewoodTest.Shared.csproj", "{8D1DEB4E-FC2B-4D7F-8D7D-8CD8A9D73081}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PinewoodTest.Client", "PinewoodTest.Client\PinewoodTest.Client.csproj", "{56CF1C3E-749B-4489-9A0C-F38C74D3B0BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PinewoodTest.Client", "PinewoodTest.Client\PinewoodTest.Client.csproj", "{56CF1C3E-749B-4489-9A0C-F38C74D3B0BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject HttpClient Client
+@inject NavigationManager Navigation
 
 <PageTitle>Customers List</PageTitle>
 
@@ -9,6 +10,8 @@
 }
 else
 {
+    <MudButton Href="/customers/create" Variant="Variant.Filled" Color="Color.Tertiary" FullWidth="true" Class="mb-4">Create New</MudButton>
+
     <MudSimpleTable Striped="true" >
         <thead>
             <tr>

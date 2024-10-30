@@ -1,0 +1,20 @@
+﻿@if (ProblemDetails?.Errors == null)
+{
+    return;
+}
+@if (ProblemDetails.Errors.TryGetValue(FieldName, out string[]? errors) && errors != null)
+{
+    <MudStack Spacing="0" Class="mt-n2">
+        @foreach (string error in errors)
+        {
+            <MudText Typo="Typo.body2" Color="Color.Error">@error</MudText>
+        }
+    </MudStack>
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public string FieldName { get; init; } = null!;
+    [Parameter, EditorRequired]
+    public ValidationProblemDetails? ProblemDetails { get; init; }
+}

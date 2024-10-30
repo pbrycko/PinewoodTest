@@ -1,0 +1,55 @@
+﻿@page "/customers/create"
+@inject HttpClient Client
+@inject NavigationManager Navigation
+
+<MudText Typo="Typo.h2">Create Customer</MudText>
+<MudBreadcrumbs Items="_breadcrumbs"></MudBreadcrumbs>
+
+<MudStack Spacing="2">
+    <MudTextField @bind-Value="_request.FirstName" Label="First Name" MaxLength="64" />
+    <ValidationErrors FieldName="@nameof(CreateCustomerRequest.FirstName)" ProblemDetails="_validationErrors" />
+
+    <MudTextField @bind-Value="_request.LastName" Label="Last Name" MaxLength="64" />
+    <ValidationErrors FieldName="@nameof(CreateCustomerRequest.LastName)" ProblemDetails="_validationErrors" />
+
+
+    <MudTextField @bind-Value="_request.Email" Label="Email" MaxLength="128" Mask="_emailMask" />
+    <ValidationErrors FieldName="@nameof(CreateCustomerRequest.Email)" ProblemDetails="_validationErrors" />
+
+
+    <MudTextField @bind-Value="_request.Address" Label="Address" MaxLength="512" />
+    <ValidationErrors FieldName="@nameof(CreateCustomerRequest.Address)" ProblemDetails="_validationErrors" />
+
+    <MudTextField @bind-Value="_request.City" Label="City" MaxLength="32" />
+    <ValidationErrors FieldName="@nameof(CreateCustomerRequest.City)" ProblemDetails="_validationErrors" />
+
+    <MudButton Color="Color.Success" Class="mt-6" OnClick="OnCreateClickedAsync">Create</MudButton>
+</MudStack>
+
+@code {
+    private static readonly IMask _emailMask = RegexMask.Email();
+    private static readonly List<BreadcrumbItem> _breadcrumbs = new List<BreadcrumbItem>()
+    {
+        new BreadcrumbItem("Home", href: "/"),
+        new BreadcrumbItem("Create Customer", href: "/customers/create", disabled: true)
+    };
+
+    private readonly CreateCustomerRequest _request = new CreateCustomerRequest();
+    private ValidationProblemDetails? _validationErrors;
+
+    private async Task OnCreateClickedAsync()
+    {
+        using HttpResponseMessage response = await Client.PostAsJsonAsync("customers", _request);
+        if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+        {
+            _validationErrors = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
+        }
+        else
+        {
+            response.EnsureSuccessStatusCode();
+
+            CustomerDTO createdCustomer = await response.Content.ReadFromJsonAsync<CustomerDTO>()!;
+            Navigation.NavigateTo(LinkBuilder.GetCustomerLink(createdCustomer!));
+        }
+    }
+}
