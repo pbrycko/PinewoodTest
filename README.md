@@ -6,6 +6,8 @@ Interview task test for Pinewood Tech.
 2. Run `PinewoodTest.API` project.
 3. Run `PinewoodTest.Client` project.
 
+I recommend multi-project launch directly from VS for best experience!
+
 ## Technical notes
 - Since the task specified it does not focus on UI design, I used [MudBlazor](https://mudblazor.com/) component library to make implementation of UI faster and less painful.
 - Home page doesn't have pagination as I deemed it unnecessary for this test.
