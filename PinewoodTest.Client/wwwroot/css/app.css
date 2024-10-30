@@ -75,3 +75,18 @@
 code {
     color: #c02d76;
 }
+
+main {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.customers-table {
+    border: 1px solid black;
+    min-width: 800px;
+}
+
+.customers-table thead {
+    font-weight: bold;
+}

@@ -1,7 +1,42 @@
 ﻿@page "/"
+@inject HttpClient Client
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Customers List</PageTitle>
 
-<h1>Hello, world!</h1>
+@if (this._customers == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <table class="customers-table">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Surname</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (CustomerListItemDTO customer in _customers)
+            {
+                <tr @key="customer.ID">
+                    <td>@customer.FirstName</td>
+                    <td>@customer.LastName</td>
+                    <a href="@LinkBuilder.GetCustomerLink(customer)">View & Edit</a>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
-Welcome to your new app.
+@code {
+    private IEnumerable<CustomerListItemDTO>? _customers;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        this._customers = await Client.GetFromJsonAsync<IEnumerable<CustomerListItemDTO>>("customers");
+
+        await base.OnParametersSetAsync();
+    }
+}
