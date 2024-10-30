@@ -80,8 +80,17 @@ namespace PinewoodTest.API.Controllers
                 Address = request.Address,
                 City = request.City
             };
-            CustomerDTO customer = await this._mediator.Send(command, cancellationToken);
-            return Ok(customer);
+
+            try
+            {
+                CustomerDTO customer = await this._mediator.Send(command, cancellationToken);
+                return Ok(customer);
+            }
+            catch (EmailConflictException ex)
+            {
+                ModelState.AddModelError(nameof(CreateCustomerRequest.Email), ex.Message);
+                return ValidationProblem(ModelState);
+            }
         }
 
         [HttpDelete("{id:guid}")]
