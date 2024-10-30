@@ -48,5 +48,13 @@ namespace PinewoodTest.API.Controllers
             CustomerListItemDTO customer = await this._mediator.Send(request, cancellationToken);
             return CreatedAtAction(nameof(GetAsync), new { customer.ID }, customer);
         }
+
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> CreateAsync(Guid id, CancellationToken cancellationToken)
+        {
+            DeleteCustomerRequest request = new DeleteCustomerRequest(id);
+            await this._mediator.Send(request, cancellationToken);
+            return NoContent();
+        }
     }
 }

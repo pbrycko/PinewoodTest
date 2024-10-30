@@ -23,6 +23,12 @@ namespace PinewoodTest.API.Middlewares
                 context.Response.StatusCode = (int)HttpStatusCode.Conflict;
                 await context.Response.WriteAsync(e.Message, context.RequestAborted);
             }
+            catch (NotFoundException e)
+            {
+                context.Response.Clear();
+                context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                await context.Response.WriteAsync(e.Message, context.RequestAborted);
+            }
         }
     }
 }
