@@ -9,6 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PinewoodTest.Shared", "Pine
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PinewoodTest.Client", "PinewoodTest.Client\PinewoodTest.Client.csproj", "{56CF1C3E-749B-4489-9A0C-F38C74D3B0BB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F99CEDC8-A77E-493A-A617-0407C15B55D2}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
