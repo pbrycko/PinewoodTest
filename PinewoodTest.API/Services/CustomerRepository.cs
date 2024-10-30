@@ -19,6 +19,12 @@ namespace PinewoodTest.API.Services
             return await this._databaseContext.Customers.ToListAsync(cancellationToken);
         }
 
+        public async Task<Customer?> GetByIDAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            this._log.LogTrace("Getting customer from the DB by ID {ID}", id);
+            return await this._databaseContext.Customers.FirstOrDefaultAsync(customer => customer.ID == id, cancellationToken);
+        }
+
         public async Task<Customer> CreateAsync(Customer customer, CancellationToken cancellationToken = default)
         {
             this._log.LogTrace("Inserting customer {EmailAddress} ({FirstName} {LastName}) to the DB", customer.Email, customer.FirstName, customer.LastName);

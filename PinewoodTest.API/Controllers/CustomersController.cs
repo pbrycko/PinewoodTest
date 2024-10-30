@@ -24,8 +24,20 @@ namespace PinewoodTest.API.Controllers
         public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken)
         {
             GetAllCustomersRequest request = new GetAllCustomersRequest();
-            IEnumerable<CustomerListItemDTO> allCustomers = await this._mediator.Send(request, cancellationToken).ConfigureAwait(false);
+            IEnumerable<CustomerListItemDTO> allCustomers = await this._mediator.Send(request, cancellationToken);
             return Ok(allCustomers);
+        }
+
+        [HttpGet("{id:guid}")]
+        [ActionName(nameof(GetAsync))]
+        [Produces(MediaTypeNames.Application.Json)]
+        public async Task<IActionResult> GetAsync(Guid id, CancellationToken cancellationToken)
+        {
+            GetCustomerRequest request = new GetCustomerRequest(id);
+            CustomerDTO? customer = await this._mediator.Send(request, cancellationToken);
+            return customer == null 
+                ? NotFound() 
+                : Ok(customer);
         }
 
         [HttpPost]
@@ -33,8 +45,8 @@ namespace PinewoodTest.API.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> CreateAsync(CreateCustomerRequest request, CancellationToken cancellationToken)
         {
-            CustomerListItemDTO customer = await this._mediator.Send(request, cancellationToken).ConfigureAwait(false);
-            return new CreatedResult($"api/customers/{customer.ID}", customer);
+            CustomerListItemDTO customer = await this._mediator.Send(request, cancellationToken);
+            return CreatedAtAction(nameof(GetAsync), new { customer.ID }, customer);
         }
     }
 }
