@@ -33,7 +33,12 @@ namespace PinewoodTest.API
 
         private static void ConfigureRequestPipeline(WebApplication app)
         {
-            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader());  // this is not secure, but for this test is okay
+            // this CORS is not secure, but for this test is okay
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod());  
+
             app.UseMiddleware<CustomValidationExceptionMiddleware>();
             app.MapControllers();
         }

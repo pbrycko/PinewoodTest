@@ -1,0 +1,103 @@
+﻿@page "/customers/{id:guid}"
+@inject HttpClient Client
+@inject NavigationManager Navigation
+
+<MudText Typo="Typo.h2">View/Edit Customer</MudText>
+<MudBreadcrumbs Items="_breadcrumbs"></MudBreadcrumbs>
+
+@if (!_loadingComplete)
+{
+    <MudText Typo="Typo.body1" Color="Color.Info">Loading...</MudText>
+}
+else if (_customer is null)
+{
+    <MudText Typo="Typo.body1" Color="Color.Warning">Customer not found!</MudText>
+}
+else
+{
+    <MudStack Spacing="2">
+        <MudTextField @bind-Value="_request.FirstName" Label="First Name" MaxLength="64" />
+        <ValidationErrors FieldName="@nameof(CreateCustomerRequest.FirstName)" ProblemDetails="_validationErrors" />
+
+        <MudTextField @bind-Value="_request.LastName" Label="Last Name" MaxLength="64" />
+        <ValidationErrors FieldName="@nameof(CreateCustomerRequest.LastName)" ProblemDetails="_validationErrors" />
+
+
+        <MudTextField @bind-Value="_request.Email" Label="Email" MaxLength="128" Mask="_emailMask" />
+        <ValidationErrors FieldName="@nameof(CreateCustomerRequest.Email)" ProblemDetails="_validationErrors" />
+
+
+        <MudTextField @bind-Value="_request.Address" Label="Address" MaxLength="512" />
+        <ValidationErrors FieldName="@nameof(CreateCustomerRequest.Address)" ProblemDetails="_validationErrors" />
+
+        <MudTextField @bind-Value="_request.City" Label="City" MaxLength="32" />
+        <ValidationErrors FieldName="@nameof(CreateCustomerRequest.City)" ProblemDetails="_validationErrors" />
+
+        <MudStack Row="true" AlignItems="AlignItems.Stretch" StretchItems="StretchItems.StartAndEnd">
+            <MudButton Color="Color.Success" Class="mt-6" OnClick="OnSaveClickedAsync">Save</MudButton>
+            <MudButton Color="Color.Error" Class="mt-6" OnClick="OnDeleteClickedAsync">Delete</MudButton>
+        </MudStack>
+    </MudStack>
+}
+
+@code {
+    private static readonly IMask _emailMask = RegexMask.Email();
+    private List<BreadcrumbItem> _breadcrumbs = new List<BreadcrumbItem>()
+    {
+        new BreadcrumbItem("Home", href: "/"),
+        new BreadcrumbItem("View Customer", href: null, disabled: true)
+    };
+
+    [Parameter]
+    public Guid ID { get; init; }
+
+    private readonly UpdateCustomerRequest _request = new UpdateCustomerRequest();
+    private CustomerDTO? _customer;
+    private bool _loadingComplete;
+    private ValidationProblemDetails? _validationErrors;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            _customer = await Client.GetFromJsonAsync<CustomerDTO>($"customers/{ID}");
+            if (_customer is not null)
+                PopulateUpdateRequestModel(_customer);
+        }
+        finally
+        {
+            _loadingComplete = true;
+        }
+        await base.OnParametersSetAsync();
+    }
+
+    private void PopulateUpdateRequestModel(CustomerDTO currentCustomerData)
+    {
+        _request.FirstName = currentCustomerData.FirstName;
+        _request.LastName = currentCustomerData.LastName;
+        _request.Email = currentCustomerData.Email;
+        _request.Address = currentCustomerData.Address;
+        _request.City = currentCustomerData.City;
+    }
+
+    private async Task OnSaveClickedAsync()
+    {
+        using HttpResponseMessage response = await Client.PutAsJsonAsync($"customers/{_customer!.ID}", _request);
+        if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+        {
+            _validationErrors = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
+        }
+        else
+        {
+            response.EnsureSuccessStatusCode();
+
+            CustomerDTO createdCustomer = await response.Content.ReadFromJsonAsync<CustomerDTO>()!;
+        }
+    }
+
+    private async Task OnDeleteClickedAsync()
+    {
+        await Client.DeleteAsync($"customers/{_customer!.ID}");
+        Navigation.NavigateTo("/");
+    }
+}
