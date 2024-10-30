@@ -1,3 +1,4 @@
+using PinewoodTest.API.Middlewares;
 using PinewoodTest.API.Services;
 
 namespace PinewoodTest.API
@@ -32,6 +33,7 @@ namespace PinewoodTest.API
 
         private static void ConfigureRequestPipeline(WebApplication app)
         {
+            app.UseMiddleware<CustomValidationExceptionMiddleware>();
             app.MapControllers();
         }
     }

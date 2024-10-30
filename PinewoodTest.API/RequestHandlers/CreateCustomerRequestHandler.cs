@@ -19,6 +19,10 @@ namespace PinewoodTest.API.RequestHandlers
         {
             this._log.LogDebug("Creating customer {EmailAddress} ({FirstName} {LastName})", request.Email, request.FirstName, request.LastName);
 
+            Customer? existingWithEmail = await this._repository.GetByEmailAsync(request.Email, cancellationToken);
+            if (existingWithEmail is not null)
+                throw new EmailConflictException(request.Email, existingWithEmail.ID);
+
             Customer customer = new Customer()
             {
                 FirstName = request.FirstName,
@@ -28,7 +32,7 @@ namespace PinewoodTest.API.RequestHandlers
                 City = request.City,
             };
 
-            customer = await this._repository.CreateAsync(customer);
+            customer = await this._repository.CreateAsync(customer, cancellationToken);
 
             return customer.ToListItemDTO();
         }
