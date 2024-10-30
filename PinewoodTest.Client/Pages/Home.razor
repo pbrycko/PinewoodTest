@@ -9,7 +9,7 @@
 }
 else
 {
-    <table class="customers-table">
+    <MudSimpleTable Striped="true" >
         <thead>
             <tr>
                 <td>Name</td>
@@ -23,11 +23,11 @@ else
                 <tr @key="customer.ID">
                     <td>@customer.FirstName</td>
                     <td>@customer.LastName</td>
-                    <a href="@LinkBuilder.GetCustomerLink(customer)">View & Edit</a>
+                    <MudButton Href="@LinkBuilder.GetCustomerLink(customer)" Color="Color.Primary" Variant="Variant.Outlined">View & Edit</MudButton>
                 </tr>
             }
         </tbody>
-    </table>
+    </MudSimpleTable>
 }
 
 @code {

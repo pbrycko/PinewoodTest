@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using MudBlazor.Services;
 
 namespace PinewoodTest.Client
 {
@@ -12,7 +13,8 @@ namespace PinewoodTest.Client
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
             // this HttpClient base address ideally wouldn't be hardcoded, but just to make this task a tad simpler...
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5245/api/") });
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5245/api/") }); 
+            builder.Services.AddMudServices();
 
             await builder.Build().RunAsync();
         }
