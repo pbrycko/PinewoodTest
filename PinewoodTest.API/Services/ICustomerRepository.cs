@@ -8,6 +8,8 @@
 
         Task<Customer> CreateAsync(Customer customer, CancellationToken cancellationToken = default);
 
+        Task<Customer> UpdateAsync(Customer customer, CancellationToken cancellationToken = default);
+
         Task DeleteAsync(Customer customer, CancellationToken cancellationToken = default);
     }
 }

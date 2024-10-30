@@ -41,6 +41,16 @@ namespace PinewoodTest.API.Services
             return customer;
         }
 
+        public async Task<Customer> UpdateAsync(Customer customer, CancellationToken cancellationToken = default)
+        {
+            this._log.LogTrace("Updating customer {ID} in the DB", customer.ID);
+
+            this._databaseContext.Customers.Update(customer);
+            await this._databaseContext.SaveChangesAsync(cancellationToken);
+
+            return customer;
+        }
+
         public async Task DeleteAsync(Customer customer, CancellationToken cancellationToken = default)
         {
             this._log.LogTrace("Deleting customer {ID} from the DB", customer.ID);

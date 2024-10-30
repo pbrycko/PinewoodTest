@@ -58,6 +58,23 @@ namespace PinewoodTest.API.Controllers
             return CreatedAtAction(nameof(GetAsync), new { customer.ID }, customer);
         }
 
+        [HttpPut("{id:guid}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        public async Task<IActionResult> UpdateAsnc(Guid id, UpdateCustomerRequest request, CancellationToken cancellationToken)
+        {
+            UpdateCustomerCommand command = new UpdateCustomerCommand(id)
+            {
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Email = request.Email,
+                Address = request.Address,
+                City = request.City
+            };
+            CustomerDTO customer = await this._mediator.Send(command, cancellationToken);
+            return Ok(customer);
+        }
+
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> CreateAsync(Guid id, CancellationToken cancellationToken)
         {
