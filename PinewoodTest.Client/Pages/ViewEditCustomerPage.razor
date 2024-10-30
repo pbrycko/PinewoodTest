@@ -1,6 +1,7 @@
 ﻿@page "/customers/{id:guid}"
 @inject HttpClient Client
 @inject NavigationManager Navigation
+@inject ISnackbar Snackbar
 
 <MudText Typo="Typo.h2">View/Edit Customer</MudText>
 <MudBreadcrumbs Items="_breadcrumbs"></MudBreadcrumbs>
@@ -92,12 +93,14 @@ else
             response.EnsureSuccessStatusCode();
 
             CustomerDTO createdCustomer = await response.Content.ReadFromJsonAsync<CustomerDTO>()!;
+            Snackbar.Add($"Customer {createdCustomer!.FirstName} {createdCustomer!.LastName} updated!", Severity.Success);
         }
     }
 
     private async Task OnDeleteClickedAsync()
     {
         await Client.DeleteAsync($"customers/{_customer!.ID}");
+        Snackbar.Add($"Customer {_customer!.FirstName} {_customer!.LastName} deleted!", Severity.Warning);
         Navigation.NavigateTo("/");
     }
 }

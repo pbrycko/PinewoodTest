@@ -1,6 +1,7 @@
 ﻿@page "/customers/create"
 @inject HttpClient Client
 @inject NavigationManager Navigation
+@inject ISnackbar Snackbar
 
 <MudText Typo="Typo.h2">Create Customer</MudText>
 <MudBreadcrumbs Items="_breadcrumbs"></MudBreadcrumbs>
@@ -49,6 +50,7 @@
             response.EnsureSuccessStatusCode();
 
             CustomerDTO createdCustomer = await response.Content.ReadFromJsonAsync<CustomerDTO>()!;
+            Snackbar.Add($"Customer {createdCustomer!.FirstName} {createdCustomer!.LastName} created!", Severity.Success);
             Navigation.NavigateTo(LinkBuilder.GetCustomerLink(createdCustomer!));
         }
     }
