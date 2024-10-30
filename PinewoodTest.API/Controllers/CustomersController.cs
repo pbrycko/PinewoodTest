@@ -54,8 +54,17 @@ namespace PinewoodTest.API.Controllers
                 Address = request.Address,
                 City = request.City
             };
-            CustomerDTO customer = await this._mediator.Send(command, cancellationToken);
-            return CreatedAtAction(nameof(GetAsync), new { customer.ID }, customer);
+
+            try
+            {
+                CustomerDTO customer = await this._mediator.Send(command, cancellationToken);
+                return CreatedAtAction(nameof(GetAsync), new { customer.ID }, customer);
+            }
+            catch (EmailConflictException ex)
+            {
+                ModelState.AddModelError(nameof(CreateCustomerRequest.Email), ex.Message);
+                return ValidationProblem(ModelState);
+            }
         }
 
         [HttpPut("{id:guid}")]
