@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PinewoodTest.API.RequestHandlers;
 using PinewoodTest.Requests;
 using PinewoodTest.Responses;
 using System.Net.Mime;
@@ -23,8 +24,8 @@ namespace PinewoodTest.API.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken)
         {
-            GetAllCustomersRequest request = new GetAllCustomersRequest();
-            IEnumerable<CustomerListItemDTO> allCustomers = await this._mediator.Send(request, cancellationToken);
+            GetAllCustomersCommand command = new GetAllCustomersCommand();
+            IEnumerable<CustomerListItemDTO> allCustomers = await this._mediator.Send(command, cancellationToken);
             return Ok(allCustomers);
         }
 
@@ -33,8 +34,8 @@ namespace PinewoodTest.API.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> GetAsync(Guid id, CancellationToken cancellationToken)
         {
-            GetCustomerRequest request = new GetCustomerRequest(id);
-            CustomerDTO? customer = await this._mediator.Send(request, cancellationToken);
+            GetCustomerCommand command = new GetCustomerCommand(id);
+            CustomerDTO? customer = await this._mediator.Send(command, cancellationToken);
             return customer == null 
                 ? NotFound() 
                 : Ok(customer);
@@ -45,15 +46,23 @@ namespace PinewoodTest.API.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> CreateAsync(CreateCustomerRequest request, CancellationToken cancellationToken)
         {
-            CustomerListItemDTO customer = await this._mediator.Send(request, cancellationToken);
+            CreateCustomerCommand command = new CreateCustomerCommand()
+            {
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Email = request.Email,
+                Address = request.Address,
+                City = request.City
+            };
+            CustomerDTO customer = await this._mediator.Send(command, cancellationToken);
             return CreatedAtAction(nameof(GetAsync), new { customer.ID }, customer);
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> CreateAsync(Guid id, CancellationToken cancellationToken)
         {
-            DeleteCustomerRequest request = new DeleteCustomerRequest(id);
-            await this._mediator.Send(request, cancellationToken);
+            DeleteCustomerCommand command = new DeleteCustomerCommand(id);
+            await this._mediator.Send(command, cancellationToken);
             return NoContent();
         }
     }

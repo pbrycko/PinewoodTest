@@ -1,10 +1,8 @@
-﻿using MediatR;
-using PinewoodTest.Responses;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PinewoodTest.Requests
 {
-    public class CreateCustomerRequest : IRequest<CustomerListItemDTO>
+    public class CreateCustomerRequest
     {
         [Required, MinLength(2), MaxLength(64)]
         public string FirstName { get; set; } = null!;
